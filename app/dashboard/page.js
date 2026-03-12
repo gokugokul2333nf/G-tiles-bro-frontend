@@ -403,18 +403,18 @@ export default function DashboardPage() {
                             </span>
                         </div>
 
-                        <div className="grid grid-cols-3 gap-4">
-                            <div className="bg-slate-950/50 p-4 rounded-2xl border border-white/5">
-                                <div className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Total Leads</div>
-                                <div className="text-xl font-black text-blue-400">{dailyDetails?.customers?.length || 0}</div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="bg-slate-950/50 p-3 md:p-4 rounded-2xl border border-white/5">
+                                <div className="text-[7px] md:text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Total Leads</div>
+                                <div className="text-lg md:text-xl font-black text-blue-400">{dailyDetails?.customers?.length || 0}</div>
                             </div>
-                            <div className="bg-slate-950/50 p-4 rounded-2xl border border-white/5">
-                                <div className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Pending</div>
-                                <div className="text-xl font-black text-amber-500">₹ {(dailyDetails?.pendingAmount || 0).toLocaleString()}</div>
+                            <div className="bg-slate-950/50 p-3 md:p-4 rounded-2xl border border-white/5">
+                                <div className="text-[7px] md:text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Pending</div>
+                                <div className="text-lg md:text-xl font-black text-amber-500">₹ {(dailyDetails?.pendingAmount || 0).toLocaleString()}</div>
                             </div>
-                            <div className="bg-slate-950/50 p-4 rounded-2xl border border-white/5">
-                                <div className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Potential</div>
-                                <div className="text-xl font-black text-slate-400">₹ {(dailyDetails?.totalSum || 0).toLocaleString()}</div>
+                            <div className="bg-slate-950/50 p-3 md:p-4 rounded-2xl border border-white/5">
+                                <div className="text-[7px] md:text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Potential</div>
+                                <div className="text-lg md:text-xl font-black text-slate-400">₹ {(dailyDetails?.totalSum || 0).toLocaleString()}</div>
                             </div>
                         </div>
                     </div>
@@ -443,21 +443,21 @@ export default function DashboardPage() {
                             </span>
                         </div>
 
-                        <div className="grid grid-cols-3 gap-4">
-                            <div className="bg-slate-950/40 p-5 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all group/stat">
-                                <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover/stat:text-indigo-400 transition-colors mb-1">Paid Clients</div>
-                                <div className="text-3xl font-black text-white">{revenueStats.paidCountMonth || 0}</div>
-                                <div className="text-[8px] font-black text-slate-600 uppercase tracking-widest mt-1">From {revenueStats.totalLeadCountMonth || 0} Leads</div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="bg-slate-950/40 p-3 md:p-5 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all group/stat">
+                                <div className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover/stat:text-indigo-400 transition-colors mb-1">Paid Clients</div>
+                                <div className="text-2xl md:text-3xl font-black text-white">{revenueStats.paidCountMonth || 0}</div>
+                                <div className="text-[7px] md:text-[8px] font-black text-slate-600 uppercase tracking-widest mt-1">From {revenueStats.totalLeadCountMonth || 0} Leads</div>
                             </div>
-                            <div className="bg-slate-950/40 p-5 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all">
-                                <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Pending</div>
-                                <div className="text-3xl font-black text-amber-500">
+                            <div className="bg-slate-950/40 p-3 md:p-5 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all">
+                                <div className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Pending</div>
+                                <div className="text-2xl md:text-3xl font-black text-amber-500">
                                     ₹{(revenueStats.pendingMonth || 0).toLocaleString()}
                                 </div>
                             </div>
-                            <div className="bg-slate-950/40 p-5 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all">
-                                <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Win Rate</div>
-                                <div className="text-3xl font-black text-indigo-400">
+                            <div className="bg-slate-950/40 p-3 md:p-5 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all">
+                                <div className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Win Rate</div>
+                                <div className="text-2xl md:text-3xl font-black text-indigo-400">
                                     {revenueStats.totalLeadCountMonth > 0 ? Math.round((revenueStats.paidCountMonth / revenueStats.totalLeadCountMonth) * 100) : 0}%
                                 </div>
                             </div>
