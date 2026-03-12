@@ -300,66 +300,62 @@ export default function CustomerDetailsPage() {
           </div>
         </header>
 
-        <div className="page-content">
-          {/* Mobile Search & Sort */}
-          <div className="md:hidden mb-4 flex flex-col gap-3">
-            <div className="search-bar-wrapper" style={{ position: 'relative' }}>
-              <Search className="search-icon w-4 h-4" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input 
-                type="text" 
-                placeholder="Search records..." 
-                className="form-input with-icon"
-                style={{ paddingLeft: '40px' }}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div className="date-filter-wrapper flex items-center gap-2">
-              <div style={{ position: 'relative', flex: 1 }}>
-                <Calendar className="search-icon w-4 h-4" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+        <div className="page-content sm:pb-8 pb-24">
+          {/* Mobile Search & Sort with Glassmorphism */}
+          <div className="md:hidden mb-6 flex flex-col gap-3 sticky top-4 z-40">
+            <div className="glass-panel p-3 rounded-2xl flex flex-col gap-3 shadow-xl border border-white/10 backdrop-blur-xl bg-slate-900/60">
+              <div className="search-bar-wrapper" style={{ position: 'relative' }}>
+                <Search className="search-icon w-4 h-4" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#6366f1' }} />
                 <input 
-                  type="date" 
-                  className="form-input with-icon"
-                  style={{ paddingLeft: '40px', width: '100%' }}
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
+                  type="text" 
+                  placeholder="Quick search..." 
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 pl-10 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-medium placeholder:text-slate-500"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="flex gap-2">
+                <div style={{ position: 'relative', flex: 1.5 }}>
+                  <Calendar className="search-icon w-4 h-4" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#6366f1' }} />
+                  <input 
+                    type="date" 
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-2 px-4 pl-10 text-xs text-white focus:outline-none"
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                  />
+                </div>
+                <ElegantSelect
+                  value={dateSort}
+                  onChange={(val) => setDateSort(val)}
+                  options={[
+                    { value: 'newest', label: 'Date' },
+                    { value: 'oldest', label: 'Oldest' }
+                  ]}
+                  icon={ArrowDownWideNarrow}
+                  variant="small"
+                  className="flex-1 bg-white/5 border-white/10!"
+                />
+                <ElegantSelect
+                  value={statusPriority}
+                  onChange={(val) => setStatusPriority(val)}
+                  options={[
+                    { value: 'none', label: 'Pri' },
+                    { value: 'payment_completed', label: 'Paid' },
+                    { value: 'payment_pending', label: 'Pend' }
+                  ]}
+                  icon={Zap}
+                  variant="small"
+                  className="flex-1 bg-white/5 border-white/10!"
                 />
               </div>
               {selectedDate && (
                 <button 
                   onClick={() => setSelectedDate('')}
-                  className="text-xs text-indigo-400 font-medium"
+                  className="text-[10px] text-indigo-400 font-black uppercase tracking-widest text-center"
                 >
-                  Clear
+                  Clear Date Filter
                 </button>
               )}
-            </div>
-            <div className="flex gap-2">
-              <ElegantSelect
-                value={dateSort}
-                onChange={(val) => setDateSort(val)}
-                options={[
-                  { value: 'newest', label: 'Newest First' },
-                  { value: 'oldest', label: 'Oldest First' }
-                ]}
-                icon={ArrowDownWideNarrow}
-                variant="small"
-                className="flex-1"
-              />
-              <ElegantSelect
-                value={statusPriority}
-                onChange={(val) => setStatusPriority(val)}
-                options={[
-                  { value: 'none', label: 'No Priority' },
-                  { value: 'payment_completed', label: 'Paid First' },
-                  { value: 'payment_pending', label: 'Pending First' },
-                  { value: 'reason_purchased', label: 'Purchased First' },
-                  { value: 'reason_enquiry', label: 'Enquiry First' }
-                ]}
-                icon={Zap}
-                variant="small"
-                className="flex-1"
-              />
             </div>
           </div>
 
@@ -450,67 +446,90 @@ export default function CustomerDetailsPage() {
               </table>
             </div>
 
-            {/* Mobile Card View */}
-            <div className="md:hidden space-y-4">
+            {/* Mobile Card View - Redesigned for Premium Experience */}
+            <div className="md:hidden grid grid-cols-1 gap-5">
               {filteredCustomers.length === 0 ? (
-                <div className="card text-center p-12">
-                   <Search className="w-12 h-12 mx-auto mb-4 opacity-20" />
-                   <p className="text-slate-500">{searchTerm ? `No matches found` : 'No records found'}</p>
+                <div className="card text-center p-16 bg-slate-900/40 border-dashed border-2 border-white/5 rounded-3xl">
+                   <Search className="w-16 h-16 mx-auto mb-4 text-slate-700" />
+                   <p className="text-slate-500 font-medium">{searchTerm ? `Zero results for scan` : 'Neural archives are empty'}</p>
                 </div>
               ) : (
-                filteredCustomers.map((customer) => (
-                  <div key={customer._id} className="mobile-card-item">
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <div className="font-bold text-white text-lg">{customer.name}</div>
-                        <div className="text-indigo-400 text-sm font-mono">{customer.phone}</div>
-                      </div>
-                      <div className="text-xl font-black text-emerald-400">₹{customer.amount}</div>
-                    </div>
+                filteredCustomers.map((customer, idx) => (
+                  <div 
+                    key={customer._id} 
+                    className="premium-mobile-card group"
+                    style={{ animationDelay: `${idx * 50}ms` }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
                     
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <span className={`badge ${customer.reason === 'purchased' ? 'badge-success' : 'badge-info'}`}>
-                        {customer.reason}
-                      </span>
-                      <span className={`badge ${customer.paymentStatus === 'completed' ? 'badge-success' : 'badge-warning'}`}>
-                        {customer.paymentStatus}
-                      </span>
-                      <div className="flex items-center gap-1.5 ml-auto text-[11px] text-slate-500 font-bold">
-                        <Calendar className="w-3 h-3" />
-                        {new Date(customer.visitedAt).toLocaleDateString()}
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-3 border-t border-white/5">
-                      <div className="flex items-center gap-2">
-                        <div className="avatar-xs">
-                          {customer.enteredBy?.name?.charAt(0) || 'U'}
+                    <div className="relative p-5">
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="min-w-0">
+                          <h3 className="font-black text-white text-xl leading-tight tracking-tight truncate mb-1">
+                            {customer.name}
+                          </h3>
+                          <div className="flex items-center gap-2">
+                            <span className="text-indigo-400 text-xs font-black tracking-widest">{customer.phone}</span>
+                            <div className="w-1 h-1 rounded-full bg-slate-700" />
+                            <span className="text-slate-500 text-[10px] uppercase font-bold tracking-tighter">
+                              {new Date(customer.visitedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                            </span>
+                          </div>
                         </div>
-                        <span className="text-[11px] text-slate-500 italic">{customer.enteredBy?.name}</span>
+                        <div className="flex flex-col items-end">
+                          <div className="text-lg font-black bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent drop-shadow-sm">
+                            ₹{customer.amount}
+                          </div>
+                          <div className="text-[9px] uppercase font-black text-slate-600 tracking-widest mt-0.5">Total Bill</div>
+                        </div>
                       </div>
                       
-                      <div className="flex gap-2">
-                         {canEdit(customer) || user?.role === 'admin' ? (
-                           <>
-                             <button 
-                                onClick={() => router.push(`/marketing?edit=${customer._id}`)}
-                                className="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg"
-                             >
-                               <Pencil className="w-4 h-4" />
-                             </button>
-                             <button 
-                                onClick={() => handleDelete(customer._id)}
-                                disabled={deletingId === customer._id}
-                                className="p-2 bg-rose-500/10 text-rose-500 rounded-lg"
-                             >
-                               {deletingId === customer._id ? '...' : <Trash2 className="w-4 h-4" />}
-                             </button>
-                           </>
-                         ) : (
-                           <div className="status-locked text-[10px]">
-                             <Lock className="w-3 h-3 mr-1" /> Locked
-                           </div>
-                         )}
+                      <div className="flex gap-2 mb-6">
+                        <div className={`status-pill ${customer.reason === 'purchased' ? 'status-pill-success' : 'status-pill-info'}`}>
+                          <div className="status-dot" />
+                          {customer.reason}
+                        </div>
+                        <div className={`status-pill ${customer.paymentStatus === 'completed' ? 'status-pill-success' : 'status-pill-warning'}`}>
+                          <div className="status-dot" />
+                          {customer.paymentStatus}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between mt-2">
+                        <div className="flex items-center gap-2.5 bg-white/5 pr-3 pl-1.5 py-1 rounded-full border border-white/5 shadow-inner">
+                          <div className="avatar-sm bg-gradient-to-br from-indigo-500 to-purple-600 ring-4 ring-slate-950">
+                            {customer.enteredBy?.name?.charAt(0) || 'U'}
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter leading-none">Logged By</span>
+                            <span className="text-xs text-slate-200 font-black truncate max-w-[80px]">{customer.enteredBy?.name?.split(' ')[0]}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="flex gap-1.5">
+                           {canEdit(customer) || user?.role === 'admin' ? (
+                             <>
+                               <button 
+                                  onClick={() => router.push(`/marketing?edit=${customer._id}`)}
+                                  className="w-10 h-10 flex items-center justify-center bg-indigo-500/10 hover:bg-indigo-500 text-indigo-400 hover:text-white rounded-xl transition-all border border-indigo-500/20 active:scale-90"
+                               >
+                                 <Pencil className="w-4 h-4" />
+                               </button>
+                               <button 
+                                  onClick={() => handleDelete(customer._id)}
+                                  disabled={deletingId === customer._id}
+                                  className="w-10 h-10 flex items-center justify-center bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white rounded-xl transition-all border border-rose-500/20 active:scale-90"
+                               >
+                                 {deletingId === customer._id ? '...' : <Trash2 className="w-4 h-4" />}
+                               </button>
+                             </>
+                           ) : (
+                             <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 rounded-lg text-slate-600 border border-white/5 shadow-inner">
+                               <Lock className="w-3 h-3" />
+                               <span className="text-[9px] font-black uppercase tracking-widest">Locked</span>
+                             </div>
+                           )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -521,7 +540,71 @@ export default function CustomerDetailsPage() {
         </div>
       </main>
 
+      {/* Mobile Floating Action Button */}
+      <button 
+        onClick={() => router.push('/marketing')}
+        className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl shadow-2xl shadow-indigo-600/40 flex items-center justify-center z-[100] active:scale-95 transition-transform border border-white/20"
+      >
+        <Plus className="w-7 h-7" />
+      </button>
+
       <style jsx global>{`
+        /* Mobile-Specific Styles Only */
+        .premium-mobile-card {
+          position: relative;
+          background: rgba(23, 23, 37, 0.7);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 24px;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          animation: cardEntry 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+        }
+        @keyframes cardEntry {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .premium-mobile-card:active {
+          transform: scale(0.98);
+          background: rgba(23, 23, 37, 0.9);
+        }
+        .status-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 14px;
+          border-radius: 12px;
+          font-size: 10px;
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          border: 1px solid rgba(255, 255, 255, 0.03);
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .status-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: currentColor;
+          box-shadow: 0 0 10px currentColor;
+        }
+        .status-pill-success { background: rgba(16, 185, 129, 0.08); color: #10b981; }
+        .status-pill-info { background: rgba(59, 130, 246, 0.08); color: #3b82f6; }
+        .status-pill-warning { background: rgba(245, 158, 11, 0.08); color: #f59e0b; }
+        
+        .avatar-sm {
+          width: 32px;
+          height: 32px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          font-weight: 900;
+          color: white;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Desktop Original Styles (DO NOT MODIFY PC VIEW) */
         .data-table {
           width: 100%;
           border-collapse: collapse;
