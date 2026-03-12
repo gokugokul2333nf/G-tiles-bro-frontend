@@ -230,29 +230,35 @@ export default function CustomerDetailsPage() {
             >
               <Menu className="w-6 h-6" />
             </button>
-            <div className="flex items-center gap-3 min-w-0 flex-1">
-              <Users className="w-8 h-8 text-indigo-500 shrink-0" />
-              <div className="min-w-0 flex-1">
-                <h1 className="topbar-title text-base sm:text-xl lg:text-2xl truncate hidden sm:block">Customer Database</h1>
-                <h1 className="topbar-title text-base font-black truncate sm:hidden">Customer DB</h1>
-                <p className="topbar-subtitle text-[10px] sm:text-sm opacity-70 break-words line-clamp-1 sm:line-clamp-none">Neural Link - Interactions Log</p>
+            <div className="flex items-center gap-3">
+              <Users className="w-8 h-8 text-indigo-500" />
+              <div>
+                <h1 className="topbar-title">Customer Database</h1>
+                <p className="topbar-subtitle">Neural Link - Interactions Log</p>
               </div>
             </div>
           </div>
-          <div className="topbar-actions hidden md:flex">
-            <div className="flex items-center gap-3">
-              <div className="search-bar-wrapper hidden md:block" style={{ position: 'relative', minWidth: '300px' }}>
+          <div className="topbar-avatar">
+            {user?.name?.charAt(0) || 'U'}
+          </div>
+        </header>
+
+        <div className="page-content sm:pb-8 pb-24">
+          {/* Desktop Filters (Moved out of topbar for cleaner layout) */}
+          <div className="hidden md:flex items-center justify-between mb-6 p-4 bg-slate-900/40 border border-white/5 rounded-2xl">
+            <div className="flex items-center gap-4">
+              <div className="search-bar-wrapper" style={{ position: 'relative', minWidth: '350px' }}>
                 <Search className="search-icon w-4 h-4" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                 <input 
                   type="text" 
-                  placeholder="Search by name, phone or date..." 
-                  className="form-input with-icon"
+                  placeholder="Search records..." 
+                  className="form-input with-icon w-full"
                   style={{ paddingLeft: '40px' }}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              <div className="date-filter-wrapper hidden md:flex items-center gap-2">
+              <div className="date-filter-wrapper flex items-center gap-2">
                 <div style={{ position: 'relative' }}>
                   <Calendar className="search-icon w-4 h-4" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                   <input 
@@ -263,15 +269,9 @@ export default function CustomerDetailsPage() {
                     onChange={(e) => setSelectedDate(e.target.value)}
                   />
                 </div>
-                {selectedDate && (
-                  <button 
-                    onClick={() => setSelectedDate('')}
-                    className="text-xs text-indigo-400 hover:text-indigo-300 font-medium"
-                  >
-                    Clear Date
-                  </button>
-                )}
               </div>
+            </div>
+            <div className="flex items-center gap-3">
               <ElegantSelect
                 value={dateSort}
                 onChange={(val) => setDateSort(val)}
@@ -281,13 +281,13 @@ export default function CustomerDetailsPage() {
                 ]}
                 icon={ArrowDownWideNarrow}
                 variant="small"
-                className="min-w-[140px]"
+                className="min-w-[150px]"
               />
               <ElegantSelect
                 value={statusPriority}
                 onChange={(val) => setStatusPriority(val)}
                 options={[
-                  { value: 'none', label: 'No Priority' },
+                  { value: 'none', label: 'All Status' },
                   { value: 'payment_completed', label: 'Paid First' },
                   { value: 'payment_pending', label: 'Pending First' },
                   { value: 'reason_purchased', label: 'Purchased First' },
@@ -299,9 +299,6 @@ export default function CustomerDetailsPage() {
               />
             </div>
           </div>
-        </header>
-
-        <div className="page-content sm:pb-8 pb-24">
           {/* Mobile Search & Sort with Glassmorphism */}
           <div className="md:hidden mb-6 flex flex-col gap-3 sticky top-4 z-40">
             <div className="glass-panel p-3 rounded-2xl flex flex-col gap-3 shadow-xl border border-white/10 backdrop-blur-xl bg-slate-900/60">
