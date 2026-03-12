@@ -40,7 +40,7 @@ export default function AdminPage() {
 
   const fetchUsers = async () => {
     try {
-      const { data } = await api.get('/auth/users');
+      const { data } = await api.get('auth/users');
       setUsers(data.users);
     } catch (err) {
       console.error('Failed to fetch users', err);
@@ -60,7 +60,7 @@ export default function AdminPage() {
     
     setDeletingId(id);
     try {
-      await api.delete(`/auth/users/${id}`);
+      await api.delete(`auth/users/${id}`);
       setUsers((prev) => prev.filter((u) => u._id !== id));
       showToast('User deleted successfully', 'success');
     } catch (err) {
@@ -85,7 +85,7 @@ export default function AdminPage() {
 
   const handleRoleChange = async (id, newRole) => {
     try {
-      await api.patch(`/auth/users/${id}/role`, { role: newRole });
+      await api.patch(`auth/users/${id}/role`, { role: newRole });
       setUsers((prev) => prev.map((u) => (u._id === id ? { ...u, role: newRole } : u)));
       showToast(`Role updated to ${newRole}`, 'success');
     } catch (err) {

@@ -57,7 +57,7 @@ function MarketingContent() {
 
   const fetchCustomers = async () => {
     try {
-      const { data } = await api.get('/customers');
+      const { data } = await api.get('customers');
       setCustomers(data.customers || []);
       
       if (editId) {
@@ -136,9 +136,9 @@ function MarketingContent() {
     setSaving(true);
     try {
       if (isNew) {
-        await api.post('/customers', form);
+        await api.post('customers', form);
       } else if (selected) {
-        await api.put(`/customers/${selected._id}`, form);
+        await api.put(`customers/${selected._id}`, form);
       }
       await fetchCustomers();
       showToast(isNew ? 'Customer added successfully!' : 'Record updated successfully!', 'success');

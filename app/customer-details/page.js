@@ -49,7 +49,7 @@ export default function CustomerDetailsPage() {
   const fetchCustomers = async () => {
     try {
       setLoading(true);
-      const { data } = await api.get('/customers');
+      const { data } = await api.get('customers');
       setCustomers(data.customers || []);
     } catch (err) {
       console.error('Failed to fetch customers', err);
@@ -64,7 +64,7 @@ export default function CustomerDetailsPage() {
     if (!window.confirm('Are you sure you want to delete this customer record?')) return;
     setDeletingId(id);
     try {
-      await api.delete(`/customers/${id}`);
+      await api.delete(`customers/${id}`);
       setCustomers((prev) => prev.filter((c) => c._id !== id));
       showToast('Customer deleted successfully', 'success');
     } catch (err) {

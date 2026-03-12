@@ -59,7 +59,7 @@ export default function TeamAnalysisPage() {
 
   const fetchTeamStats = async () => {
     try {
-      const { data } = await api.get('/customers/team-stats');
+      const { data } = await api.get('customers/team-stats');
       if (data.success) {
         setStats(data.stats);
       }

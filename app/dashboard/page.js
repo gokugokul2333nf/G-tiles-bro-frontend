@@ -86,7 +86,7 @@ export default function DashboardPage() {
 
   const fetchDashboardData = async () => {
     try {
-      const { data } = await api.get('/auth/dashboard');
+      const { data } = await api.get('auth/dashboard');
       setDashboardData(data);
     } catch (err) {
       console.error('Failed to fetch dashboard data', err);
@@ -100,7 +100,7 @@ export default function DashboardPage() {
     try {
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
-      const { data } = await api.get(`/customers/stats?month=${month}&year=${year}`);
+      const { data } = await api.get(`customers/stats?month=${month}&year=${year}`);
       if (data.success) {
         setRevenueStats(data.stats);
       }
@@ -118,7 +118,7 @@ export default function DashboardPage() {
       const month = String(date.getMonth() + 1).padStart(2, '0');
       const day = String(date.getDate()).padStart(2, '0');
       const dateStr = `${year}-${month}-${day}`;
-      const { data } = await api.get(`/customers/stats/daily?date=${dateStr}`);
+      const { data } = await api.get(`customers/stats/daily?date=${dateStr}`);
       setDailyDetails(data);
     } catch (err) {
       console.error('Failed to fetch daily details', err);
@@ -129,7 +129,7 @@ export default function DashboardPage() {
 
   const fetchCustomers = async () => {
     try {
-      const { data } = await api.get('/customers');
+      const { data } = await api.get('customers');
       setCustomers(data.customers || []);
     } catch (err) {
       console.error('Failed to fetch customers', err);
@@ -165,7 +165,7 @@ export default function DashboardPage() {
     if (!window.confirm('Are you sure you want to clear all mock data? This will reflect exact operational data.')) return;
     setClearLoading(true);
     try {
-      await api.delete('/customers/mock');
+      await api.delete('customers/mock');
       await fetchStats(viewDate);
       await fetchDailyDetails(selectedDate);
       await fetchCustomers();
@@ -181,7 +181,7 @@ export default function DashboardPage() {
   const handleUpdateBalance = async () => {
     setUpdateLoading(true);
     try {
-      await api.post('/auth/balance/update', { amount });
+      await api.post('auth/balance/update', { amount });
       await fetchDashboardData();
     } catch (err) {
       console.error('Failed to update balance', err);
