@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../lib/api';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -22,13 +22,14 @@ import {
   Sun,
   Moon,
   Rocket,
-  BarChart3
+  BarChart3,
+  Lock
 } from 'lucide-react';
 import ElegantSelect from '../../components/ElegantSelect';
 import { useTheme } from '../../context/ThemeContext';
 import { useToast } from '../../context/ToastContext';
 
-export default function MarketingPage() {
+function MarketingContent() {
   const { user, logout } = useAuth();
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
@@ -359,5 +360,17 @@ export default function MarketingPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function MarketingPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen bg-slate-950">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+      </div>
+    }>
+      <MarketingContent />
+    </Suspense>
   );
 }
