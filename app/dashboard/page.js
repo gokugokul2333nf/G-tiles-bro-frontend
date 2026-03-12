@@ -322,16 +322,13 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="topbar-actions flex items-center gap-2 md:gap-4">
-            {user?.role === 'admin' && (
-                <button 
-                    onClick={handleClearMocks} 
-                    className={`flex items-center gap-2 px-2 md:px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${isDark ? 'bg-rose-500/10 border border-rose-500/20 text-rose-500 hover:bg-rose-500/20 shadow-lg shadow-rose-500/5' : 'bg-rose-50 border border-rose-200 text-rose-600 hover:bg-rose-100'}`}
-                    disabled={clearLoading}
-                >
-                    {clearLoading ? <RefreshCcw className="w-3 h-3 animate-spin" /> : <Trash2 className="w-3 h-3" />}
-                    <span className="hidden sm:inline">{clearLoading ? 'Clearing...' : 'Clear Mock Data'}</span>
-                </button>
-            )}
+            <button 
+              onClick={toggleTheme} 
+              className={`p-2 rounded-xl transition-all ${isDark ? 'bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
             <div className="topbar-avatar">
               {user?.name?.charAt(0) || 'U'}
             </div>
