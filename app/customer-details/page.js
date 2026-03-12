@@ -233,12 +233,13 @@ export default function CustomerDetailsPage() {
             <div className="flex items-center gap-3 min-w-0 flex-1">
               <Users className="w-8 h-8 text-indigo-500 shrink-0" />
               <div className="min-w-0 flex-1">
-                <h1 className="topbar-title text-base sm:text-xl lg:text-2xl truncate">Customer Database</h1>
+                <h1 className="topbar-title text-base sm:text-xl lg:text-2xl truncate hidden sm:block">Customer Database</h1>
+                <h1 className="topbar-title text-base font-black truncate sm:hidden">Customer DB</h1>
                 <p className="topbar-subtitle text-[10px] sm:text-sm opacity-70 break-words line-clamp-1 sm:line-clamp-none">Neural Link - Interactions Log</p>
               </div>
             </div>
           </div>
-          <div className="topbar-actions">
+          <div className="topbar-actions hidden md:flex">
             <div className="flex items-center gap-3">
               <div className="search-bar-wrapper hidden md:block" style={{ position: 'relative', minWidth: '300px' }}>
                 <Search className="search-icon w-4 h-4" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
@@ -328,24 +329,24 @@ export default function CustomerDetailsPage() {
                   value={dateSort}
                   onChange={(val) => setDateSort(val)}
                   options={[
-                    { value: 'newest', label: 'Date' },
+                    { value: 'newest', label: 'Newest' },
                     { value: 'oldest', label: 'Oldest' }
                   ]}
                   icon={ArrowDownWideNarrow}
                   variant="small"
-                  className="flex-1 bg-white/5 border-white/10!"
+                  className="flex-1 bg-white/5 border-white/10"
                 />
                 <ElegantSelect
                   value={statusPriority}
                   onChange={(val) => setStatusPriority(val)}
                   options={[
-                    { value: 'none', label: 'Pri' },
+                    { value: 'none', label: 'All' },
                     { value: 'payment_completed', label: 'Paid' },
                     { value: 'payment_pending', label: 'Pend' }
                   ]}
                   icon={Zap}
                   variant="small"
-                  className="flex-1 bg-white/5 border-white/10!"
+                  className="flex-1 bg-white/5 border-white/10"
                 />
               </div>
               {selectedDate && (
@@ -496,13 +497,13 @@ export default function CustomerDetailsPage() {
                       </div>
 
                       <div className="flex items-center justify-between mt-2">
-                        <div className="flex items-center gap-2.5 bg-white/5 pr-3 pl-1.5 py-1 rounded-full border border-white/5 shadow-inner">
-                          <div className="avatar-sm bg-gradient-to-br from-indigo-500 to-purple-600 ring-4 ring-slate-950">
+                        <div className="flex items-center gap-2.5 bg-white/5 pr-3 pl-1.5 py-1 rounded-full border border-white/10 shadow-lg">
+                          <div className="avatar-sm bg-gradient-to-br from-indigo-500 to-purple-600 ring-2 ring-slate-900">
                             {customer.enteredBy?.name?.charAt(0) || 'U'}
                           </div>
                           <div className="flex flex-col">
-                            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter leading-none">Logged By</span>
-                            <span className="text-xs text-slate-200 font-black truncate max-w-[80px]">{customer.enteredBy?.name?.split(' ')[0]}</span>
+                            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none">Source</span>
+                            <span className="text-xs text-white font-black truncate max-w-[80px]">{customer.enteredBy?.name?.split(' ')[0]}</span>
                           </div>
                         </div>
                         
