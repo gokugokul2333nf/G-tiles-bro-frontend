@@ -25,7 +25,8 @@ import {
   PlusCircle,
   Sun,
   Moon,
-  BarChart3
+  BarChart3,
+  Phone
 } from 'lucide-react';
 import ElegantSelect from '../../components/ElegantSelect';
 import { useTheme } from '../../context/ThemeContext';
@@ -194,7 +195,7 @@ export default function CustomerDetailsPage() {
           
           <button onClick={() => router.push('/marketing')} className="nav-item">
             <div className="nav-item-icon"><PlusCircle className="w-4 h-4" /></div>
-            <span>Form View</span>
+            <span>Form </span>
           </button>
           
           <button className="nav-item active">
@@ -415,7 +416,16 @@ export default function CustomerDetailsPage() {
                     <div className="flex justify-between items-start mb-4">
                        <div>
                           <h3 className="text-lg font-bold text-white mb-1">{customer.name}</h3>
-                          <div className="text-indigo-400 font-mono text-sm">{customer.phone}</div>
+                          <div className="flex items-center gap-2 mb-1">
+                             <div className="text-indigo-400 font-mono text-sm">{customer.phone}</div>
+                             <a 
+                               href={`tel:${customer.phone}`}
+                               className="p-1.5 bg-indigo-500/10 text-indigo-400 rounded-lg active:scale-90 transition-transform lg:hidden"
+                               aria-label="Call customer"
+                             >
+                                <Phone className="w-3.5 h-3.5" />
+                             </a>
+                          </div>
                           <div className="text-slate-500 text-xs mt-1">
                              {new Date(customer.visitedAt).toLocaleDateString()}
                           </div>

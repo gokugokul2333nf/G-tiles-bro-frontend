@@ -135,7 +135,7 @@ export default function AdminPage() {
           
           <button onClick={() => router.push('/marketing')} className="nav-item">
             <div className="nav-item-icon"><PlusCircle className="w-4 h-4" /></div>
-            <span>Form View</span>
+            <span>Form</span>
           </button>
           
           <button onClick={() => router.push('/customer-details')} className="nav-item">

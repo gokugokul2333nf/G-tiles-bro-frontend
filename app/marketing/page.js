@@ -127,7 +127,15 @@ function MarketingContent() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    
+    if (name === 'phone') {
+      // Only allow numeric input and limit to 10 digits
+      const cleaned = value.replace(/\D/g, '').slice(0, 10);
+      setForm((prev) => ({ ...prev, [name]: cleaned }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
+    
     if (error) setError('');
   };
 
@@ -135,9 +143,19 @@ function MarketingContent() {
     e.preventDefault();
     setSaving(true);
     try {
-      if (isNew) {
+    if (isNew) {
+        if (form.phone.length !== 10) {
+          showToast('Please enter a valid 10-digit phone number', 'error');
+          setSaving(false);
+          return;
+        }
         await api.post('customers', form);
       } else if (selected) {
+        if (form.phone.length !== 10) {
+          showToast('Please enter a valid 10-digit phone number', 'error');
+          setSaving(false);
+          return;
+        }
         await api.put(`customers/${selected._id}`, form);
       }
       await fetchCustomers();
@@ -196,7 +214,7 @@ function MarketingContent() {
 
           <button className="nav-item active">
             <div className="nav-item-icon"><PlusCircle className="w-4 h-4" /></div>
-            <span>Form View</span>
+            <span>Form</span>
           </button>
 
           <button onClick={() => router.push('/customer-details')} className="nav-item">
@@ -286,8 +304,10 @@ function MarketingContent() {
                 <div className="form-group">
                   <label className="form-label" htmlFor="phone">Phone Number</label>
                   <input
-                    id="phone" name="phone" placeholder="Phone number"
+                    id="phone" name="phone" placeholder="10-digit phone number"
                     className="form-input"
+                    type="tel"
+                    pattern="[0-9]{10}"
                     value={form.phone} onChange={handleChange} required
                   />
                 </div>
@@ -340,8 +360,8 @@ function MarketingContent() {
                 </div>
 
                 <div className="col-span-full pt-6 flex justify-end gap-4 border-t border-white/5 mt-6">
-                  <button type="button" onClick={resetForm} className="btn-ghost" disabled={saving}>
-                    Cancel
+                  <button type="button" onClick={resetForm} className="btn btn-primary" disabled={saving}>
+                    Clear
                   </button>
                   <button type="submit" className="btn btn-primary min-w-[140px]" disabled={saving}>
                     {saving ? 'Processing...' : isNew ? 'Submit Telemetry' : 'Update Telemetry'}
