@@ -44,7 +44,10 @@ export default function LiveLocationPage() {
   const { showToast } = useToast();
   const [staffLocations, setStaffLocations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [initialDataLoaded, setInitialDataLoaded] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const [selectedStaff, setSelectedStaff] = useState(null);
 
   const fetchLocations = async () => {
     try {
@@ -52,22 +55,39 @@ export default function LiveLocationPage() {
         const { data } = await api.get('auth/marketing-locations');
         setStaffLocations(data.staff || []);
       } else if (user?.role === 'marketing') {
-        // Just show current user
-        setStaffLocations([user]);
+        const { data } = await api.get('auth/me');
+        if (data.user) {
+          setStaffLocations([data.user]);
+        }
       }
     } catch (err) {
       console.error('Failed to fetch locations', err);
-      showToast('Failed to load locations', 'error');
+      // Only show error on initial load or if it's a critical failure
+      if (!initialDataLoaded) {
+        showToast('Failed to connect to location service', 'error');
+      }
     } finally {
       setLoading(false);
+      setInitialDataLoaded(true);
     }
   };
 
   useEffect(() => {
     if (user) {
       fetchLocations();
-      const interval = setInterval(fetchLocations, 5000); // Poll every 5s for "Swiggy-like" experience
-      return () => clearInterval(interval);
+      
+      // Safety timeout: ensure loading screen disappears after 3 seconds max
+      const safetyTimeout = setTimeout(() => {
+        setLoading(false);
+        setInitialDataLoaded(true);
+      }, 3000);
+
+      const interval = setInterval(fetchLocations, 5000);
+      
+      return () => {
+        clearInterval(interval);
+        clearTimeout(safetyTimeout);
+      };
     }
   }, [user]);
 
@@ -77,12 +97,22 @@ export default function LiveLocationPage() {
     router.push('/login');
   };
 
-  // Center the map on the first staff member with a location, or 0,0
+  // Memoized center position to prevent map re-renders
   const centerPosition = useMemo(() => {
-    const firstWithLoc = staffLocations.find(s => s.location && s.location.latitude);
-    if (firstWithLoc) return [firstWithLoc.location.latitude, firstWithLoc.location.longitude];
-    return [20.5937, 78.9629]; // India center
-  }, [staffLocations]);
+    // Default to India center
+    let center = [20.5937, 78.9629];
+    
+    // Finding the active staff member to center on
+    const activeStaff = selectedStaff 
+      ? staffLocations.find(s => s._id === selectedStaff._id) 
+      : staffLocations.find(s => s.location?.latitude);
+
+    if (activeStaff?.location?.latitude) {
+      center = [activeStaff.location.latitude, activeStaff.location.longitude];
+    }
+    
+    return center;
+  }, [selectedStaff?._id, staffLocations]); // Properly track moving coordinates
 
   if (!user) return null;
 
@@ -207,17 +237,17 @@ export default function LiveLocationPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[calc(100vh-200px)]">
             {/* Map Container */}
             <div className="lg:col-span-2 card p-0 overflow-hidden relative border-white/5 shadow-2xl">
-              {loading ? (
-                <div className="absolute inset-0 z-50 bg-slate-900/80 backdrop-blur-md flex flex-col items-center justify-center gap-4">
+              <StaffMap 
+                staffLocations={staffLocations} 
+                centerPosition={centerPosition} 
+                isDark={isDark} 
+              />
+              
+              {loading && (
+                <div className="absolute inset-0 z-[1000] bg-slate-900/80 backdrop-blur-md flex flex-col items-center justify-center gap-4">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
                   <p className="text-xs font-black text-indigo-400 uppercase tracking-[0.2em]">Synchronizing Satellites...</p>
                 </div>
-              ) : (
-                <StaffMap 
-                  staffLocations={staffLocations} 
-                  centerPosition={centerPosition} 
-                  isDark={isDark} 
-                />
               )}
             </div>
 
@@ -233,36 +263,71 @@ export default function LiveLocationPage() {
                 {staffLocations.length === 0 ? (
                   <div className="text-center py-12 text-slate-600 italic text-sm">No active staff markers detected.</div>
                 ) : (
-                  staffLocations.map((staff) => (
-                    <div 
-                      key={staff._id} 
-                      className={`p-4 rounded-2xl border transition-all ${
-                        staff.location?.latitude 
-                          ? 'bg-indigo-500/5 border-indigo-500/20' 
-                          : 'bg-slate-900/40 border-white/5 opacity-50'
-                      }`}
-                    >
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <p className="font-black text-white text-sm">{staff.name}</p>
-                          <p className="text-[10px] text-slate-500 font-bold uppercase tracking-tight">{staff.email}</p>
+                  staffLocations.map((staff) => {
+                    const isOnline = staff.location?.lastLocationUpdate && 
+                                    (Date.now() - new Date(staff.location.lastLocationUpdate).getTime() < 60000);
+                    const isSelected = selectedStaff?._id === staff._id;
+
+                    return (
+                      <div 
+                        key={staff._id} 
+                        onClick={() => staff.location?.latitude && setSelectedStaff(staff)}
+                        className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                          isSelected 
+                            ? 'bg-indigo-500/20 border-indigo-500 ring-2 ring-indigo-500/50' 
+                            : isOnline 
+                              ? 'bg-indigo-500/5 border-indigo-500/20 hover:bg-indigo-500/10' 
+                              : 'bg-slate-900/40 border-white/5 opacity-70 hover:opacity-100'
+                        }`}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/10 bg-slate-800 flex-shrink-0 relative">
+                               <img 
+                                 src={staff.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(staff.name || 'Sales')}&clothing=suitAndTie&eyebrows=default&mouth=smile&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`} 
+                                 alt={staff.name}
+                                 className="w-full h-full object-cover"
+                                 onError={(e) => {
+                                   e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(staff.name)}&background=4f46e5&color=fff`;
+                                 }}
+                               />
+                            </div>
+                            <div>
+                               <div className="flex items-center gap-2">
+                                 <p className="font-black text-white text-sm">{staff.name}</p>
+                                 <span className={`text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-tighter ${
+                                   isOnline ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-500/20 text-slate-400'
+                                 }`}>
+                                   {isOnline ? 'Online' : 'Offline'}
+                                 </span>
+                               </div>
+                               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-tight">{staff.email}</p>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-end gap-1">
+                            <div className={`w-2.5 h-2.5 rounded-full border-2 border-slate-900 ${isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-slate-700'}`}></div>
+                            {isOnline && <span className="text-[7px] text-emerald-500 font-black animate-pulse">ACTIVE</span>}
+                          </div>
                         </div>
-                        <div className={`w-2 h-2 rounded-full ${staff.location?.latitude ? 'bg-emerald-500 animate-pulse' : 'bg-slate-700'}`}></div>
+                        
+                        {staff.location?.latitude ? (
+                          <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/5">
+                             <div className="flex gap-4">
+                               <div className="text-[9px] font-black text-indigo-400">
+                                 LAT: {staff.location.latitude.toFixed(4)}
+                               </div>
+                               <div className="text-[9px] font-black text-indigo-400">
+                                 LNG: {staff.location.longitude.toFixed(4)}
+                               </div>
+                             </div>
+                             {isSelected && <div className="text-[8px] font-black text-indigo-500 uppercase">Tracking...</div>}
+                          </div>
+                        ) : (
+                          <p className="text-[9px] font-bold text-slate-600 uppercase mt-2 italic">Waiting for signal...</p>
+                        )}
                       </div>
-                      {staff.location?.latitude ? (
-                        <div className="flex items-center gap-4 mt-3 pt-3 border-t border-indigo-500/10">
-                           <div className="text-[9px] font-black text-indigo-400">
-                             LAT: {staff.location.latitude.toFixed(4)}
-                           </div>
-                           <div className="text-[9px] font-black text-indigo-400">
-                             LNG: {staff.location.longitude.toFixed(4)}
-                           </div>
-                        </div>
-                      ) : (
-                        <p className="text-[9px] font-bold text-slate-600 uppercase mt-2 italic">Waiting for signal...</p>
-                      )}
-                    </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
             </div>

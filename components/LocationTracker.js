@@ -7,7 +7,7 @@ import api from '../lib/api';
 export default function LocationTracker() {
   const { user } = useAuth();
   const lastUpdateRef = useRef(0);
-  const UPDATE_INTERVAL = 5000; // Update every 5 seconds for "Swiggy-like" experience
+  const UPDATE_INTERVAL = 5000; 
 
   useEffect(() => {
     if (!user || user.role !== 'marketing') return;
