@@ -19,7 +19,8 @@ import {
   Monitor,
   Sun,
   Moon,
-  BarChart3
+  BarChart3,
+  Map
 } from 'lucide-react';
 import ElegantSelect from '../../components/ElegantSelect';
 import { useTheme } from '../../context/ThemeContext';
@@ -141,6 +142,11 @@ export default function AdminPage() {
           <button onClick={() => router.push('/customer-details')} className="nav-item">
             <div className="nav-item-icon"><ClipboardList className="w-4 h-4" /></div>
             <span>Customer Details</span>
+          </button>
+
+          <button onClick={() => router.push('/live-location')} className="nav-item">
+            <div className="nav-item-icon"><Map className="w-4 h-4" /></div>
+            <span>Live Location</span>
           </button>
 
           {user?.role === 'admin' && (
