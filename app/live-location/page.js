@@ -74,6 +74,11 @@ export default function LiveLocationPage() {
 
   useEffect(() => {
     if (user) {
+      if (user.role !== 'admin') {
+        router.push('/dashboard');
+        return;
+      }
+
       fetchLocations();
       
       // Safety timeout: ensure loading screen disappears after 3 seconds max
@@ -164,10 +169,12 @@ export default function LiveLocationPage() {
                 <div className="nav-item-icon"><ClipboardList className="w-4 h-4" /></div>
                 <span>Customer Details</span>
               </button>
-              <button className="nav-item active">
-                <div className="nav-item-icon"><MapIcon className="w-4 h-4" /></div>
-                <span>Live Location</span>
-              </button>
+              {user?.role === 'admin' && (
+                <button className="nav-item active">
+                  <div className="nav-item-icon"><MapIcon className="w-4 h-4" /></div>
+                  <span>Live Location</span>
+                </button>
+              )}
             </>
           )}
 

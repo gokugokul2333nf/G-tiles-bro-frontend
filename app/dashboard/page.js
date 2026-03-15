@@ -264,10 +264,12 @@ export default function DashboardPage() {
                 <div className="nav-item-icon"><ClipboardList className="w-4 h-4" /></div>
                 <span>Customer Details</span>
               </button>
-              <button onClick={() => router.push('/live-location')} className="nav-item">
-                <div className="nav-item-icon"><Map className="w-4 h-4" /></div>
-                <span>Live Location</span>
-              </button>
+              {user?.role === 'admin' && (
+                <button onClick={() => router.push('/live-location')} className="nav-item">
+                  <div className="nav-item-icon"><Map className="w-4 h-4" /></div>
+                  <span>Live Location</span>
+                </button>
+              )}
             </>
           )}
 
