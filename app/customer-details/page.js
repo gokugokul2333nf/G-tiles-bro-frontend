@@ -14,7 +14,7 @@ import {
   Calendar, 
   Pencil, 
   Lock,
-  Zap,
+  Grid3X3,
   Trash2,
   ArrowUpDown,
   Plus,
@@ -157,7 +157,7 @@ export default function CustomerDetailsPage() {
   if (loading && customers.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-slate-950">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-500"></div>
       </div>
     );
   }
@@ -176,9 +176,9 @@ export default function CustomerDetailsPage() {
       <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo-icon">
-            <Zap className="w-5 h-5 text-white" />
+            <Grid3X3 className="w-5 h-5 text-white" />
           </div>
-          <span className="sidebar-logo-text">NexaApp</span>
+          <span className="sidebar-logo-text">The Tiles Bro</span>
           <button 
             className="lg:hidden p-2 text-slate-400 hover:text-white"
             onClick={() => setIsSidebarOpen(false)}
@@ -250,14 +250,14 @@ export default function CustomerDetailsPage() {
               <Menu className="w-6 h-6" />
             </button>
             <div className="flex items-center gap-2">
-              <Users className="w-7 h-7 text-indigo-500" />
-              <h1 className="text-lg font-black tracking-tight text-white m-0">DATABASE</h1>
+               <ClipboardList className="w-7 h-7 text-sky-500" />
+              <h1 className="text-lg font-black tracking-tight text-white m-0">REGISTRY</h1>
             </div>
           </div>
           <div className="flex items-center gap-3">
              <button 
                 onClick={() => setIsFilterSheetOpen(true)}
-                className="md:hidden p-2.5 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20 active:scale-90 transition-transform"
+                className="md:hidden p-2.5 bg-sky-500/10 text-sky-400 rounded-xl border border-sky-500/20 active:scale-90 transition-transform"
              >
                 <Search className="w-5 h-5" />
              </button>
@@ -317,7 +317,7 @@ export default function CustomerDetailsPage() {
                   { value: 'reason_purchased', label: 'Purchased First' },
                   { value: 'reason_enquiry', label: 'Enquiry First' }
                 ]}
-                icon={Zap}
+                icon={Grid3X3}
                 variant="small"
                 className="min-w-[170px]"
               />
@@ -455,9 +455,9 @@ export default function CustomerDetailsPage() {
 
                     <div className="flex items-center justify-between pt-4 border-t border-white/5">
                         <div className="flex items-center gap-2">
-                           <div className="avatar-xs bg-indigo-500/20 text-indigo-400">
-                              {customer.enteredBy?.name?.charAt(0) || 'U'}
-                           </div>
+                           <div className="w-8 h-8 rounded-lg bg-sky-500/10 flex items-center justify-center text-sky-400">
+                                       {customer.enteredBy?.name?.charAt(0) || 'U'}
+                                    </div>
                            <span className="text-xs text-slate-400">By: {customer.enteredBy?.name}</span>
                         </div>
                         
@@ -512,14 +512,14 @@ export default function CustomerDetailsPage() {
                  
                  <div className="flex-1 overflow-y-auto p-6 space-y-8">
                     {/* Search Section */}
-                    <div className="space-y-3">
-                       <label className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Refine Search</label>
+                     <div className="space-y-3">
+                        <label className="text-[10px] font-black text-sky-400 uppercase tracking-widest">Refine Search</label>
                        <div className="relative group/search">
-                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-400 group-focus-within/search:scale-110 transition-transform" />
+                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sky-400 group-focus-within/search:scale-110 transition-transform" />
                           <input 
                              type="text" 
                              placeholder="Search..." 
-                             className="w-full bg-slate-950/50 border border-white/5 rounded-xl py-3.5 pl-10 pr-4 text-sm text-white focus:border-indigo-500/50 outline-none transition-all"
+                             className="w-full bg-slate-950/50 border border-white/5 rounded-xl py-3.5 pl-10 pr-4 text-sm text-white focus:border-sky-500/50 outline-none transition-all"
                              value={searchTerm}
                              onChange={(e) => setSearchTerm(e.target.value)}
                           />
@@ -527,8 +527,8 @@ export default function CustomerDetailsPage() {
                     </div>
 
                     {/* Date Picker Section */}
-                    <div className="space-y-3">
-                       <label className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Date Marker</label>
+                     <div className="space-y-3">
+                        <label className="text-[10px] font-black text-sky-400 uppercase tracking-widest">Date Marker</label>
                        <div className="relative">
                           <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                           <input 
@@ -541,8 +541,8 @@ export default function CustomerDetailsPage() {
                     </div>
 
                     {/* Sorting Section */}
-                    <div className="space-y-3">
-                       <label className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Temporal Flow</label>
+                     <div className="space-y-3">
+                        <label className="text-[10px] font-black text-sky-400 uppercase tracking-widest">Sort Order</label>
                        <ElegantSelect
                           value={dateSort}
                           onChange={(val) => setDateSort(val)}
@@ -557,8 +557,8 @@ export default function CustomerDetailsPage() {
                     </div>
 
                     {/* Status Section */}
-                    <div className="space-y-3">
-                       <label className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Status Priority</label>
+                     <div className="space-y-3">
+                        <label className="text-[10px] font-black text-sky-400 uppercase tracking-widest">Status Priority</label>
                        <ElegantSelect
                           value={statusPriority}
                           onChange={(val) => setStatusPriority(val)}
@@ -575,21 +575,21 @@ export default function CustomerDetailsPage() {
                  </div>
 
                  <div className="p-6 border-t border-white/5 bg-slate-950/30">
-                    <button 
-                       onClick={() => setIsFilterSheetOpen(false)}
-                       className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-indigo-500/20 active:scale-95 transition-all text-sm"
-                    >
-                       Apply Telemetry
-                    </button>
+                     <button 
+                        onClick={() => setIsFilterSheetOpen(false)}
+                        className="w-full py-4 bg-sky-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-sky-500/20 active:scale-95 transition-all text-sm"
+                     >
+                        Apply Filters
+                     </button>
                  </div>
               </div>
            </div>
         )}      </main>
 
       {/* Mobile Floating Action Button */}
-      <button 
+       <button 
         onClick={() => router.push('/marketing')}
-        className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-2xl shadow-2xl shadow-indigo-600/40 flex items-center justify-center z-[100] active:scale-95 transition-transform border border-white/20"
+        className="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-sky-600 text-white rounded-2xl shadow-2xl shadow-sky-600/40 flex items-center justify-center z-[100] active:scale-95 transition-transform border border-white/20"
       >
         <Plus className="w-7 h-7" />
       </button>

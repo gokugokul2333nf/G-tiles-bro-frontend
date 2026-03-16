@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import api from '../../lib/api';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { 
-  Zap, 
+  Grid3X3,
   Plus, 
   Users,
   ClipboardList, 
@@ -24,7 +24,11 @@ import {
   Rocket,
   BarChart3,
   Map,
-  Lock
+  Lock,
+  UserPlus,
+  MessageSquare,
+  Activity,
+  Contact
 } from 'lucide-react';
 import ElegantSelect from '../../components/ElegantSelect';
 import { useTheme } from '../../context/ThemeContext';
@@ -191,9 +195,9 @@ function MarketingContent() {
       <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo-icon">
-            <Zap className="w-5 h-5 text-white" />
+            <Grid3X3 className="w-5 h-5 text-white" />
           </div>
-          <span className="sidebar-logo-text">NexaApp</span>
+          <span className="sidebar-logo-text">The Tiles Bro</span>
           <button 
             className="lg:hidden p-2 text-slate-400 hover:text-white"
             onClick={() => setIsSidebarOpen(false)}
@@ -263,17 +267,16 @@ function MarketingContent() {
       <main className="main-content">
         <header className="topbar">
           <div className="flex items-center gap-4">
-            <button 
-              className="lg:hidden p-2 -ml-2 text-muted hover:text-primary transition-colors"
+            <button                 className="md:hidden p-2.5 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20 active:scale-90 transition-transform"
               onClick={() => setIsSidebarOpen(true)}
             >
               <Menu className="w-6 h-6" />
             </button>
-            <div className="flex items-center gap-3">
-              <Megaphone className="w-8 h-8 text-indigo-500" />
+            <div className="flex items-center gap-4">
+               <ClipboardList className="w-7 h-7 text-emerald-500" />
               <div>
-                <h1 className="topbar-title">Marketing Agent</h1>
-                <p className="topbar-subtitle">Operator: {user?.name}</p>
+                <h1 className="topbar-title">The Tiles Bro</h1>
+                <p className="topbar-subtitle">Management Console</p>
               </div>
             </div>
           </div>
@@ -285,13 +288,13 @@ function MarketingContent() {
         <div className="page-content">
           <div className="card">
             <div className="card-header border-b border-white/5 pb-6 mb-6">
-              <h2 className="card-title text-xl font-bold flex items-center">
+              <h2 className="card-title text-sm font-black flex items-center gap-3 uppercase tracking-widest text-slate-400">
                 {isNew ? (
-                  <><Plus className="w-6 h-6 mr-3 text-indigo-400" /> New Customer Entry</>
+                  <><Plus className="w-5 h-5 text-emerald-400" /> New Order Entry</>
                 ) : selected ? (
-                  <><Rocket className="w-6 h-6 mr-3 text-indigo-400" /> Interaction Telemetry</>
+                  <><Activity className="w-5 h-5 text-emerald-400" /> Record Analysis</>
                 ) : (
-                  'Select a record'
+                  'Select a Reference'
                 )}
               </h2>
             </div>
@@ -331,34 +334,34 @@ function MarketingContent() {
 
                 <div className="form-group">
                   <ElegantSelect
-                    label="Interaction Logic"
+                    label="Product Interest"
                     value={form.reason}
                     onChange={(val) => setForm(prev => ({ ...prev, reason: val }))}
                     options={[
-                      { value: 'enquired', label: 'Enquired' },
-                      { value: 'purchased', label: 'Purchased' }
+                      { value: 'enquired', label: 'Tile Catalog' },
+                      { value: 'purchased', label: 'Order Confirmed' }
                     ]}
-                    icon={Brain}
+                    icon={MessageSquare}
                   />
                 </div>
 
                 <div className="form-group">
                   <ElegantSelect
-                    label="Transfer Status"
+                    label="Order Progress"
                     value={form.paymentStatus}
                     onChange={(val) => setForm(prev => ({ ...prev, paymentStatus: val }))}
                     options={[
-                      { value: 'pending', label: 'Standing By' },
-                      { value: 'completed', label: 'Confirmed' }
+                      { value: 'pending', label: 'In Negotiation' },
+                      { value: 'completed', label: 'Payment Settled' }
                     ]}
-                    icon={Send}
+                    icon={Activity}
                   />
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label" htmlFor="amount">Collection Amount</label>
+                  <label className="form-label" htmlFor="amount">Order Value</label>
                   <div className="relative group/input">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-lg group-focus-within/input:text-indigo-400 transition-colors">₹</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-lg group-focus-within/input:text-emerald-400 transition-colors">₹</span>
                     <input
                       id="amount" name="amount" type="number"
                       className="form-input pl-12"
@@ -372,15 +375,15 @@ function MarketingContent() {
                     Clear
                   </button>
                   <button type="submit" className="btn btn-primary min-w-[140px]" disabled={saving}>
-                    {saving ? 'Processing...' : isNew ? 'Submit Telemetry' : 'Update Telemetry'}
+                    {saving ? 'Processing...' : isNew ? 'Save New Record' : 'Apply Changes'}
                   </button>
                 </div>
               </form>
             ) : (
               <div className="p-12 text-center">
                 <Lock className="w-12 h-12 text-slate-700 mx-auto mb-4" />
-                <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Access Restricted</p>
-                <p className="text-slate-600 text-sm mt-2">Only the origin operator can modify this data.</p>
+                <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Security Restricted</p>
+                <p className="text-slate-600 text-sm mt-2">Only the original team member can modify this record.</p>
                 <button onClick={resetForm} className="btn btn-primary mt-6">Create New Entry</button>
               </div>
             )}
@@ -395,7 +398,7 @@ export default function MarketingPage() {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center min-h-screen bg-slate-950">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
       </div>
     }>
       <MarketingContent />

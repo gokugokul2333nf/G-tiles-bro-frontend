@@ -59,7 +59,7 @@ export default function ElegantSelect({
                 className={`elegant-select-option ${value === option.value ? 'selected' : ''}`}
               >
                 <span>{option.label}</span>
-                {value === option.value && <Check className="w-3.5 h-3.5 text-indigo-400" />}
+                {value === option.value && <Check className="w-3.5 h-3.5 text-sky-400" />}
               </button>
             ))}
           </div>

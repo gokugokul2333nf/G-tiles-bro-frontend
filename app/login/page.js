@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
 import { 
-  Zap, 
+  Grid3X3, 
   AlertCircle, 
   Mail, 
   Key, 
@@ -64,9 +64,9 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="auth-logo">
           <div className="auth-logo-icon">
-            <Zap className="w-6 h-6 text-indigo-500" />
+            <Grid3X3 className="w-6 h-6 text-sky-500" />
           </div>
-          <span className="auth-logo-text">NexaApp</span>
+          <span className="auth-logo-text">The Tiles Bro</span>
         </div>
 
         <h1 className="auth-title">Welcome back</h1>
@@ -85,7 +85,7 @@ export default function LoginPage() {
           <div className="form-group">
             <label className="form-label" htmlFor="email">Email address</label>
             <div className="input-wrapper">
-              <Mail className="input-icon w-4 h-4 text-indigo-400" />
+              <Mail className="input-icon w-4 h-4 text-sky-400" />
               <input
                 id="email"
                 type="email"

@@ -6,6 +6,7 @@ import api from '../../lib/api';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { 
+  Grid3X3,
   LayoutDashboard, 
   Users, 
   ClipboardList, 
@@ -20,7 +21,6 @@ import {
   IndianRupee,
   Rocket,
   CheckCircle2,
-  Zap,
   FileText,
   Key,
   User,
@@ -209,14 +209,14 @@ export default function DashboardPage() {
     ].filter(d => d.value > 0);
   }, [revenueStats]);
 
-  const COLORS = ['#6366f1', '#8b5cf6', '#d946ef'];
+  const COLORS = ['#f59e0b', '#10b981', '#fbbf24'];
 
   if (loading || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen" style={{ background: 'var(--bg-primary)' }}>
         <div className="flex flex-col items-center gap-6">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: 'var(--accent-primary)' }}></div>
-            <p className="font-black uppercase tracking-widest text-[10px] animate-pulse" style={{ color: 'var(--text-muted)' }}>Initializing Neural Link...</p>
+            <p className="font-black uppercase tracking-widest text-[10px] animate-pulse" style={{ color: 'var(--text-muted)' }}>Loading Workspace...</p>
         </div>
       </div>
     );
@@ -236,9 +236,9 @@ export default function DashboardPage() {
       <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo-icon">
-            <Zap className="w-5 h-5 text-white" />
+            <Grid3X3 className="w-5 h-5 text-white" />
           </div>
-          <span className="sidebar-logo-text">NexaApp</span>
+          <span className="sidebar-logo-text">The Tiles Bro</span>
           <button 
             className="lg:hidden p-2 text-slate-400 hover:text-white"
             onClick={() => setIsSidebarOpen(false)}
@@ -321,17 +321,16 @@ export default function DashboardPage() {
               <Menu className="w-6 h-6" />
             </button>
             <div className="flex items-center gap-3">
-              <Monitor className="w-8 h-8 text-indigo-500 hidden md:block" />
+              <Layout className="w-8 h-8 text-emerald-500 hidden md:block" />
               <div>
-                <h1 className="topbar-title">System Overview</h1>
+                <h1 className="topbar-title">Overview</h1>
                 <p className="topbar-subtitle">Welcome back, {user?.name}</p>
               </div>
             </div>
           </div>
           <div className="topbar-actions flex items-center gap-2 md:gap-4">
             <button 
-              onClick={toggleTheme} 
-              className={`p-2 rounded-xl transition-all ${isDark ? 'bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+              onClick={toggleTheme}               className={`p-2 rounded-xl transition-all ${isDark ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
               title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -348,10 +347,10 @@ export default function DashboardPage() {
               <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
                   <h2 className="text-2xl font-black text-white flex items-center gap-3">
-                    <TrendingUp className="w-8 h-8 text-indigo-500" />
-                    Revenue Intelligence
+                    <TrendingUp className="w-8 h-8 text-emerald-500" />
+                    Performance Insights
                   </h2>
-                  <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mt-1">Real-time Performance Metrics</p>
+                  <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mt-1">Real-time Lead Metrics</p>
                 </div>
                 
                 {/* Global Selectors */}
@@ -382,8 +381,8 @@ export default function DashboardPage() {
               {/* Main Analysis Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                   {/* BOX 1: DAILY PERFORMANCE */}
-                  <div className={`card p-8 relative overflow-hidden group ${isDark ? 'border-blue-500/10' : 'border-indigo-100'}`}>
-                    <div className={`absolute top-0 right-0 w-64 h-64 blur-[100px] -mr-32 -mt-32 ${isDark ? 'bg-blue-500/5' : 'bg-indigo-100/50'}`}></div>
+                  <div className={`card p-8 relative overflow-hidden group ${isDark ? 'border-emerald-500/10' : 'border-emerald-100'}`}>
+                    <div className={`absolute top-0 right-0 w-64 h-64 blur-[100px] -mr-32 -mt-32 ${isDark ? 'bg-emerald-500/5' : 'bg-emerald-100/50'}`}></div>
                     <div className="relative z-10">
                         <div className="flex items-center justify-between mb-8">
                             <div>
@@ -399,7 +398,7 @@ export default function DashboardPage() {
                                 }))}
                                 icon={Clock}
                                 variant="small"
-                                className="ring-4 ring-blue-500/5 group-hover:ring-blue-500/10"
+                                 className="ring-4 ring-emerald-500/5 group-hover:ring-emerald-500/10"
                             />
                         </div>
 
@@ -413,7 +412,7 @@ export default function DashboardPage() {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div className="bg-slate-950/50 p-3 md:p-4 rounded-2xl border border-white/5">
                                 <div className="text-[7px] md:text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Total Leads</div>
-                                <div className="text-lg md:text-xl font-black text-blue-400">{dailyDetails?.customers?.length || 0}</div>
+                                 <div className="text-lg md:text-xl font-black text-emerald-400">{dailyDetails?.customers?.length || 0}</div>
                             </div>
                             <div className="bg-slate-950/50 p-3 md:p-4 rounded-2xl border border-white/5">
                                 <div className="text-[7px] md:text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Pending</div>
@@ -428,8 +427,8 @@ export default function DashboardPage() {
                   </div>
 
                   {/* BOX 2: MONTHLY SUMMARY */}
-                  <div className={`card p-8 relative overflow-hidden group ${isDark ? 'border-indigo-500/10' : 'border-indigo-100'}`}>
-                    <div className={`absolute top-0 right-0 w-64 h-64 blur-[100px] -mr-32 -mt-32 ${isDark ? 'bg-indigo-500/10' : 'bg-indigo-100/30'}`}></div>
+                  <div className={`card p-8 relative overflow-hidden group ${isDark ? 'border-sky-500/10' : 'border-sky-100'}`}>
+                    <div className={`absolute top-0 right-0 w-64 h-64 blur-[100px] -mr-32 -mt-32 ${isDark ? 'bg-emerald-500/10' : 'bg-emerald-100/30'}`}></div>
                     <div className="relative z-10">
                         <div className="flex items-center justify-between mb-8">
                             <div>
@@ -438,8 +437,8 @@ export default function DashboardPage() {
                                     {viewDate.toLocaleString('default', { month: 'long' })} {viewDate.getFullYear()}
                                 </div>
                             </div>
-                            <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 shadow-2xl shadow-indigo-500/10 group-hover:bg-indigo-500/20 transition-all">
-                                <BarChart3 className="w-6 h-6 text-indigo-400" />
+                            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-2xl shadow-emerald-500/10 group-hover:bg-emerald-500/20 transition-all">
+                                <BarChart3 className="w-6 h-6 text-emerald-400" />
                             </div>
                         </div>
 
@@ -451,20 +450,20 @@ export default function DashboardPage() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="bg-slate-950/40 p-3 md:p-5 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all group/stat">
-                                <div className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover/stat:text-indigo-400 transition-colors mb-1">Paid Clients</div>
+                            <div className="bg-slate-950/40 p-3 md:p-5 rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all group/stat">
+                                <div className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest group-hover/stat:text-emerald-400 transition-colors mb-1">Paid Clients</div>
                                 <div className="text-2xl md:text-3xl font-black text-white">{revenueStats.paidCountMonth || 0}</div>
                                 <div className="text-[7px] md:text-[8px] font-black text-slate-600 uppercase tracking-widest mt-1">From {revenueStats.totalLeadCountMonth || 0} Leads</div>
                             </div>
-                            <div className="bg-slate-950/40 p-3 md:p-5 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all">
+                            <div className="bg-slate-950/40 p-3 md:p-5 rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all">
                                 <div className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Pending</div>
                                 <div className="text-2xl md:text-3xl font-black text-amber-500">
                                     ₹{(revenueStats.pendingMonth || 0).toLocaleString()}
                                 </div>
                             </div>
-                            <div className="bg-slate-950/40 p-3 md:p-5 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all">
+                            <div className="bg-slate-950/40 p-3 md:p-5 rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all">
                                 <div className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Win Rate</div>
-                                <div className="text-2xl md:text-3xl font-black text-indigo-400">
+                                <div className="text-2xl md:text-3xl font-black text-emerald-400">
                                     {revenueStats.totalLeadCountMonth > 0 ? Math.round((revenueStats.paidCountMonth / revenueStats.totalLeadCountMonth) * 100) : 0}%
                                 </div>
                             </div>
@@ -476,18 +475,18 @@ export default function DashboardPage() {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
                   {/* Revenue Breakdown Bar Chart */}
                   <div className={`card p-8 lg:col-span-2 relative overflow-hidden group ${isDark ? 'border-white/5' : 'border-gray-200'}`}>
-                    <div className={`absolute -top-24 -right-24 w-64 h-64 blur-[80px] ${isDark ? 'bg-indigo-500/5' : 'bg-indigo-100/30'}`}></div>
+                    <div className={`absolute -top-24 -right-24 w-64 h-64 blur-[80px] ${isDark ? 'bg-sky-500/5' : 'bg-sky-100/30'}`}></div>
                     <div className="relative z-10 flex items-center justify-between mb-8">
                         <div>
-                            <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-1">Revenue Matrix</h3>
-                            <div className="text-xl font-black text-white">Monthly Revenue Matrix</div>
+                            <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-1">Performance Matrix</h3>
+                            <div className="text-xl font-black text-white">Monthly Growth Trends</div>
                         </div>
-                        <div className="text-[9px] font-black text-indigo-400 px-3 py-1 bg-indigo-500/5 rounded-full border border-indigo-500/10">YEAR {viewDate.getFullYear()}</div>
+                        <div className="text-[9px] font-black text-emerald-400 px-3 py-1 bg-emerald-500/5 rounded-full border border-emerald-500/10">YEAR {viewDate.getFullYear()}</div>
                     </div>
                     
                     <div style={{ height: '280px', width: '100%' }}>
                         {statsLoading ? (
-                            <div className="h-full flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div></div>
+                            <div className="h-full flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div></div>
                         ) : (
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChartComponent data={revenueStats.annualTrend?.length > 0 ? revenueStats.annualTrend : [{_id: 1, amount: 0}]}>
@@ -502,11 +501,11 @@ export default function DashboardPage() {
                                     <Tooltip 
                                         cursor={{fill: '#1e293b', opacity: 0.4}}
                                         contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.5)' }}
-                                        itemStyle={{ color: '#6366f1', fontWeight: '900' }}
+                                        itemStyle={{ color: '#10b981', fontWeight: '900' }}
                                     />
                                     <Bar 
                                         dataKey="amount" 
-                                        fill="#6366f1" 
+                                        fill="#10b981" 
                                         radius={[10, 10, 0, 0]} 
                                         barSize={isMobile ? 12 : 32}
                                         background={{ fill: '#0f172a', radius: 10 }}
@@ -519,12 +518,12 @@ export default function DashboardPage() {
 
                   {/* Monthly Pie Chart */}
                   <div className={`card p-8 flex flex-col justify-center relative group overflow-hidden ${isDark ? 'border-white/5' : 'border-gray-200'}`}>
-                    <div className={`absolute -bottom-16 -left-16 w-48 h-48 blur-[60px] ${isDark ? 'bg-indigo-500/5' : 'bg-indigo-100/30'}`}></div>
+                    <div className={`absolute -bottom-16 -left-16 w-48 h-48 blur-[60px] ${isDark ? 'bg-emerald-500/5' : 'bg-emerald-100/30'}`}></div>
                     <div className="relative z-10">
                         <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-8 text-center">Conversion Ratio</h3>
                         <div className="h-[220px] w-full flex items-center justify-center">
                              {statsLoading ? (
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div>
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
                             ) : pieData.length > 0 ? (
                                 <ResponsiveContainer width="100%" height="100%">
                                     <PieChart>
@@ -571,11 +570,11 @@ export default function DashboardPage() {
             <div className="card lg:col-span-3 h-full">
               <div className="card-header p-6 border-b border-white/5">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 bg-indigo-500/10 rounded-xl border border-indigo-500/20">
-                        <FileText className="w-4 h-4 text-indigo-400" />
+                    <div className="p-2 bg-sky-500/10 rounded-xl border border-sky-500/20">
+                        <FileText className="w-4 h-4 text-sky-400" />
                     </div>
                     <div>
-                        <h2 className="text-sm font-black text-white uppercase tracking-widest">Neural Activity Stream</h2>
+                        <h2 className="text-sm font-black text-white uppercase tracking-widest">Recent Activity</h2>
                         <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">Automated Event Logging</p>
                     </div>
                 </div>
@@ -587,15 +586,15 @@ export default function DashboardPage() {
                     ) : (
                     recentActivity.slice(0, 5).map((activity) => (
                         <div key={activity.id} className="activity-item flex items-center gap-5 group">
-                            <div className="w-12 h-12 rounded-2xl bg-slate-950 border border-white/5 flex items-center justify-center transition-all group-hover:bg-indigo-500/10 group-hover:border-indigo-500/30 group-hover:scale-105 shadow-2xl">
-                                {activity.type === 'auth' ? <Key className="w-5 h-5 text-amber-500" /> : activity.type === 'profile' ? <User className="w-5 h-5 text-sky-500" /> : <Folder className="w-5 h-5 text-indigo-500" />}
+                            <div className="w-12 h-12 rounded-2xl bg-slate-950 border border-white/5 flex items-center justify-center transition-all group-hover:bg-emerald-500/10 group-hover:border-emerald-500/30 group-hover:scale-105 shadow-2xl">
+                                {activity.type === 'auth' ? <Key className="w-5 h-5 text-amber-500" /> : activity.type === 'profile' ? <User className="w-5 h-5 text-teal-500" /> : <Folder className="w-5 h-5 text-emerald-500" />}
                             </div>
                             <div className="flex-1">
-                                <p className="text-[14px] font-black text-slate-200 group-hover:text-indigo-400 transition-colors uppercase tracking-tight">{activity.action}</p>
+                                <p className="text-[14px] font-black text-slate-200 group-hover:text-emerald-400 transition-colors uppercase tracking-tight">{activity.action}</p>
                                 <div className="flex items-center gap-3 mt-1">
                                     <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{new Date(activity.time).toLocaleString()}</p>
                                     <div className="w-1 h-1 rounded-full bg-slate-800"></div>
-                                    <p className="text-[9px] font-black text-indigo-500/60 uppercase tracking-widest">Type: {activity.type}</p>
+                                    <p className="text-[9px] font-black text-emerald-500/60 uppercase tracking-widest">Type: {activity.type}</p>
                                 </div>
                             </div>
                         </div>
@@ -609,15 +608,15 @@ export default function DashboardPage() {
           {(user?.role === 'marketing' || user?.role === 'admin') && (
             <div className="card mt-8 overflow-hidden">
               <div className="card-header border-b border-white/5 pb-4">
-                <h2 className="card-title">Recent Customer Stream</h2>
-                <button onClick={() => router.push('/customer-details')} className="px-4 py-1.5 bg-indigo-500/10 text-indigo-400 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-indigo-500/20 transition-all">
-                  Full Registry
-                </button>
+                <h2 className="card-title">Recent Customer Activity</h2>
+                        <button onClick={() => router.push('/customer-details')} className="w-full py-4 bg-emerald-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-emerald-500/20 active:scale-95 transition-all text-sm">
+                           View All Records
+                        </button>
               </div>
               <div className="p-2">
                 {!Array.isArray(customers) ? (
                   <div className="text-center py-12 flex flex-col items-center gap-4">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-500"></div>
                     <span className="text-xs text-slate-500 font-bold uppercase tracking-widest">Synchronizing records...</span>
                   </div>
                 ) : customers.length === 0 ? (
@@ -628,14 +627,14 @@ export default function DashboardPage() {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
                     {customers.slice(0, 6).map((customer) => (
-                      <div key={customer._id} className="p-6 bg-slate-900/40 border border-white/5 rounded-2xl hover:border-indigo-500/30 transition-all group relative overflow-hidden shadow-lg hover:shadow-indigo-500/5">
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-indigo-500/10 to-transparent blur-2xl"></div>
+                      <div key={customer._id} className="p-6 bg-slate-900/40 border border-white/5 rounded-2xl hover:border-emerald-500/30 transition-all group relative overflow-hidden shadow-lg hover:shadow-emerald-500/5">
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-emerald-500/5 blur-2xl"></div>
                         <div className="flex justify-between items-start mb-4 relative z-10">
                           <div className="font-bold text-slate-200 group-hover:text-white transition-colors tracking-tight text-base">{customer.name}</div>
                           <div className="text-xs font-black text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full border border-emerald-400/20">₹{customer.amount}</div>
                         </div>
                         <div className="flex justify-between items-center text-[11px] font-bold text-slate-500 relative z-10 uppercase tracking-widest">
-                           <span className="text-indigo-400/70">{customer.phone}</span>
+                           <span className="text-emerald-400/70">{customer.phone}</span>
                            <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {new Date(customer.visitedAt).toLocaleDateString()}</span>
                         </div>
                       </div>

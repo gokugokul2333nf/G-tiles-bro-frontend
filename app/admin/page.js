@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import api from '../../lib/api';
 import { useRouter } from 'next/navigation';
 import { 
-  Zap, 
+  Grid3X3, 
   LayoutDashboard, 
   Users, 
   ClipboardList, 
@@ -116,9 +116,9 @@ export default function AdminPage() {
       <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo-icon">
-            <Zap className="w-5 h-5 text-white" />
+            <Grid3X3 className="w-5 h-5 text-white" />
           </div>
-          <span className="sidebar-logo-text">NexaApp</span>
+          <span className="sidebar-logo-text">The Tiles Bro</span>
           <button 
             className="lg:hidden p-2 text-slate-400 hover:text-white"
             onClick={() => setIsSidebarOpen(false)}
@@ -190,7 +190,7 @@ export default function AdminPage() {
               <Menu className="w-6 h-6" />
             </button>
             <div className="flex items-center gap-3">
-              <ShieldCheck className="w-8 h-8 text-indigo-500" />
+              <ShieldCheck className="w-8 h-8 text-sky-500" />
               <div>
                 <h1 className="topbar-title">Admin Control</h1>
                 <p className="topbar-subtitle">Manage system users and permissions</p>
@@ -208,7 +208,7 @@ export default function AdminPage() {
           {error && <div className="alert alert-error mb-4">{error}</div>}
           
           <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-            <Users className="w-5 h-5 text-indigo-400" />
+            <Users className="w-5 h-5 text-sky-400" />
             User Management
           </h2>
 
@@ -270,8 +270,8 @@ export default function AdminPage() {
                           <div className="font-bold text-white text-lg tracking-tight">{u.name}</div>
                           <div className="text-slate-500 text-xs italic mt-0.5">{u.email}</div>
                         </div>
-                        <div className="p-2 bg-indigo-500/10 rounded-xl">
-                           <ShieldCheck className="w-5 h-5 text-indigo-400" />
+                        <div className="p-2 bg-sky-500/10 rounded-xl">
+                           <ShieldCheck className="w-5 h-5 text-sky-400" />
                         </div>
                       </div>
                       

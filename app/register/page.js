@@ -85,11 +85,11 @@ export default function RegisterPage() {
           <div className="auth-logo-icon">
             <Zap className="w-6 h-6 text-indigo-500" />
           </div>
-          <span className="auth-logo-text">NexaApp</span>
+          <span className="auth-logo-text">The Tiles Bro</span>
         </div>
 
         <h1 className="auth-title">Create your account</h1>
-        <p className="auth-subtitle">Join thousands of users on NexaApp</p>
+        <p className="auth-subtitle">Join thousands of users on The Tiles Bro</p>
 
         {/* Error Alert */}
         {error && (

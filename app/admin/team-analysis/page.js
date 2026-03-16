@@ -99,7 +99,7 @@ export default function TeamAnalysisPage() {
       <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div className="sidebar-logo-icon"><Zap className="w-5 h-5 text-white" /></div>
-          <span className="sidebar-logo-text">NexaApp</span>
+          <span className="sidebar-logo-text">The Tiles Bro</span>
           <button className="lg:hidden p-2 text-slate-400 hover:text-white" onClick={() => setIsSidebarOpen(false)}><X className="w-5 h-5" /></button>
         </div>
 
